@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тонировка окон и пленки</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        /* Основной заголовок */
+        header {
+            background-image: url('https://example.com/window_tinting.jpg'); /* Замените URL на свою картинку */
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        header h1 {
+            font-size: 48px;
+            margin: 0;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        header p {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        /* Основное меню */
+        nav {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            border-bottom: 2px solid #ffd700;
+        }
+
+        /* Секция услуг */
+        .services {
+            background-color: white;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .services h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .service-card {
+            display: inline-block;
+            width: 300px;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f8f8;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .service-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .service-card h3 {
+            font-size: 24px;
+            margin: 15px 0;
+        }
+
+        .service-card p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        .service-card button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .service-card button:hover {
+            background-color: #218838;
+        }
+
+        /* Блок с контактной информацией */
+        .contact {
+            background-color: #333;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .contact p {
+            font-size: 18px;
+            margin: 5px 0;
+        }
+
+        .contact a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .contact a:hover {
+            text-decoration: underline;
+        }
+
+        /* Футер */
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка сайта -->
+    <header>
+        <h1>Тонировка окон и продажа пленок</h1>
+        <p>Мы делаем ваши окна стильными и безопасными!</p>
+    </header>
+
+    <!-- Меню навигации -->
+    <nav>
+        <a href="#services">Услуги</a>
+        <a href="#films">Пленки</a>
+        <a href="#contact">Контакты</a>
+    </nav>
+
+    <!-- Услуги -->
+    <section id="services" class="services">
+        <h2>Наши услуги</h2>
+        <div class="service-card">
+            <img src="https://example.com/tint_service.jpg" alt="Тонировка авто">
+            <h3>Тонировка автомобилей</h3>
+            <p>Профессиональная тонировка стекол авто для защиты от солнца и повышения конфиденциальности.</p>
+            <button>Узнать больше</button>
+        </div>
+
+        <div class="service-card">
+            <img src="https://example.com/window_tint.jpg" alt="Тонировка домов">
+            <h3>Тонировка окон домов</h3>
+            <p>Энергосбережение, защита от ультрафиолета и уют в вашем доме с нашими тонировочными пленками.</p>
+            <button>Узнать больше</button>
+        </div>
+
+        <div class="service-card">
+            <img src="https://example.com/office_tint.jpg" alt="Тонировка офисов">
+            <h3>Тонировка офисов</h3>
+            <p>Современные решения для офисов — уменьшение бликов и комфорт для сотрудников.</p>
+            <button>Узнать больше</button>
+        </div>
+    </section>
+
+    <!-- Пленки -->
+    <section id="films" class="services">
+        <h2>Тонировочные пленки</h2>
+        <div class="service-card">
+            <img src="https://example.com/sun_protection_film.jpg" alt="Солнцезащитная пленка">
+            <h3>Солнцезащитные пленки</h3>
+            <p>Отличная защита от жарких солнечных лучей и уменьшение энергозатрат.</p>
+            <a href="{% url 'shop_app:view_sun_film' %}"><button>Узнать больше</button></a>
+            
+        </div>
+
+        <div class="service-card">
+            <img src="https://example.com/security_film.jpg" alt="Защитная пленка">
+            <h3>Защитные пленки</h3>
+            <p>Укрепление стекол и защита от разбития — надежные решения для безопасности.</p>
+            <a href="{% url 'shop_app:view_security_film' %}"><button>Узнать больше</button></a>
+        </div>
+
+        <div class="service-card">
+            <img src="https://example.com/decoration_film.jpg" alt="Декоративная пленка">
+            <h3>Декоративные пленки</h3>
+            <p>Добавьте стиль и приватность вашему дому или офису с помощью декоративных пленок.</p>
+            <a href="{% url 'shop_app:view_decoration_film' %}"><button>Узнать больше</button></a>
+        </div>
+    </section>
+
+    <!-- Контактная информация -->
+    <section id="contact" class="contact">
+        <h2>Контакты</h2>
+        <p>Телефон: <a href="tel:+79991234567">+7 (999) 123-45-67</a></p>
+        <p>Email: <a href="mailto:info@tonirovka.com">info@tonirovka.com</a></p>
+        <p>Адрес: ул. Примерная, д. 10, г. Москва</p>
+    </section>
+
+    <!-- Футер -->
+    <footer>
+        <p>&copy; 2024 Тонировка окон и пленки. Все права защищены.</p>
+    </footer>
+
+</body>
+</html>

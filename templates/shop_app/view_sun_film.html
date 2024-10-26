@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Солнцезащитные пленки</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Солнцезащитные пленки</h1>
+    </header>
+
+    <div class="content">
+        <h2>Все о солнцезащитных пленках</h2>
+        <p>Солнцезащитные пленки защищают от вредного воздействия ультрафиолетовых лучей и помогают сохранять комфорт в помещении. Они предотвращают перегрев и уменьшают нагрузку на системы кондиционирования.</p>
+        <p>Преимущества солнцезащитных пленок:</p>
+        <ul>
+            <li>Снижение нагрева в помещениях</li>
+            <li>Защита от ультрафиолетовых лучей</li>
+            <li>Увеличение уединения и комфорт</li>
+            <li>Снижение затрат на кондиционирование</li>
+        </ul>
+
+        <h2>Доступные солнцезащитные пленки</h2>
+        <ul>
+            {% for film in sun_protection_films %}
+                <li>
+                    <h2>{{ film.name }}</h2>
+                    <p>{{ film.description }}</p>
+                    <p>Цена: {{ film.price }} руб.</p>
+                </li>
+            {% empty %}
+                <li>Нет доступных солнцезащитных пленок.
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <a href="{% url 'add_film:add_film' %}">
+                <button type="button" class="btn btn-outline-primary">Добавить</button>
+                </a>
+                    <button type="button" class="btn btn-outline-primary">Изменить</button>
+                    <button type="button" class="btn btn-outline-primary">Удалить</button>
+                </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'shop_app:home' %}">На главную</a>
+    </div>
+
+</body>
+</html>

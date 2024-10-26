@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Защитные пленки</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Защитные пленки</h1>
+    </header>
+
+    <div class="content">
+        <h2>Все о защитных пленках</h2>
+        <p>Защитные пленки предназначены для укрепления стекол и повышения их безопасности. Они помогают предотвратить разбитие стекол и защищают от внешних воздействий.</p>
+        <p>Преимущества защитных пленок:</p>
+        <ul>
+            <li>Увеличенная прочность стекол</li>
+            <li>Защита от взлома</li>
+            <li>Снижение травматизма при разбитии стекол</li>
+            <li>Устойчивость к повреждениям</li>
+        </ul>
+
+        <h2>Доступные защитные пленки</h2>
+        <ul>
+            {% for film in security_films %}
+                <li>
+                    <h2>{{ film.name }}</h2>
+                    <p>{{ film.description }}</p>
+                    <p>Цена: {{ film.price }} руб.</p>
+                </li>
+            {% empty %}
+                <li>Нет доступных защитных пленок.
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary">Добавить</button>
+                    <button type="button" class="btn btn-outline-primary">Изменить</button>
+                    <button type="button" class="btn btn-outline-primary">Удалить</button>
+                </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'shop_app:home' %}">На главную</a>
+    </div>
+
+</body>
+</html>
+

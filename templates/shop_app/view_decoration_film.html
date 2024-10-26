@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Декоративные пленки</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            margin: 0;
+        }
+        .content {
+            padding: 20px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Декоративные пленки</h1>
+    </header>
+
+    <div class="content">
+        <h2>Все о декоративных пленках</h2>
+        <p>Декоративные пленки позволяют добавить стиль и приватность вашему дому или офису. Они могут использоваться для создания уникальных интерьеров и защиты от любопытных взглядов.</p>
+        <p>Преимущества декоративных пленок:</p>
+        <ul>
+            <li>Эстетическое оформление</li>
+            <li>Приватность и защита от любопытных глаз</li>
+            <li>Разнообразие стилей и текстур</li>
+            <li>Легкость в установке и замене</li>
+        </ul>
+
+        <h2>Доступные декоративные пленки</h2>
+        <ul>
+            {% for film in decoration_films %}
+                <li>
+                    <h2>{{ film.name }}</h2>
+                    <p>{{ film.description }}</p>
+                    <p>Цена: {{ film.price }} руб.</p>
+                </li>
+            {% empty %}
+                <li>Нет доступных декоративных пленок.
+                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button type="button" class="btn btn-outline-primary">Добавить</button>
+                    <button type="button" class="btn btn-outline-primary">Изменить</button>
+                    <button type="button" class="btn btn-outline-primary">Удалить</button>
+                </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{% url 'shop_app:home' %}">На главную</a>
+    </div>
+
+</body>
+</html>
