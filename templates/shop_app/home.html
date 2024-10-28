@@ -21,7 +21,15 @@
             text-align: center;
             padding: 100px 20px;
         }
-
+        .headerpravo {
+            background-size: cover;
+            background-position: right;
+            color: white;
+            text-align: right;
+            padding: 10px 20px;
+            /* Пример отступа справа */
+            margin-right: 40px; /* Отступ от правого края */
+        }
         header h1 {
             font-size: 48px;
             margin: 0;
@@ -158,7 +166,16 @@
         <h1>Тонировка окон и продажа пленок</h1>
         <p>Мы делаем ваши окна стильными и безопасными!</p>
     </header>
+    <div class="headerpravo">
+        <div class="d-flex justify-content-end">
+            <button class="btn btn-primary me-2" type="button">Вход</button>
+            <button class="btn btn-secondary" type="button">Регистрация</button>
+        </div>
+    </div>
 
+
+      
+      
     <!-- Меню навигации -->
     <nav>
         <a href="#services">Услуги</a>
