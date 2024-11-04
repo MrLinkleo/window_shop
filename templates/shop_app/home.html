@@ -21,15 +21,7 @@
             text-align: center;
             padding: 100px 20px;
         }
-        .headerpravo {
-            background-size: cover;
-            background-position: right;
-            color: white;
-            text-align: right;
-            padding: 10px 20px;
-            /* Пример отступа справа */
-            margin-right: 40px; /* Отступ от правого края */
-        }
+        
         header h1 {
             font-size: 48px;
             margin: 0;
@@ -43,21 +35,40 @@
 
         /* Основное меню */
         nav {
+            display: flex; /* Используем Flexbox для выравнивания элементов */
+            justify-content: space-between; /* Разделяем элементы между концами */
+            align-items: center; /* Выравнивание по центру по вертикали */
             background-color: #333;
             padding: 10px;
-            text-align: center;
         }
 
         nav a {
             color: white;
             text-decoration: none;
             margin: 0 15px;
-            font-size: 18px;
+            font-size: 18px; /* Размер текста для основных ссылок */
             text-transform: uppercase;
         }
 
         nav a:hover {
-            border-bottom: 2px solid #ffd700;
+            color: #ffd700; /* Изменение цвета текста при наведении */
+        }
+
+        /* Кнопки для входа и регистрации */
+        .auth-links {
+            margin-left: auto; /* Отталкиваем блок с авторизацией вправо */
+        }
+
+        .auth-links a {
+            color: white; /* Цвет текста для ссылок */
+            margin: 0 10px;
+            font-size: 14px; /* Уменьшаем размер текста для ссылок "Вход" и "Регистрация" */
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+
+        .auth-links a:hover {
+            text-decoration: underline; /* Подчеркивание при наведении */
         }
 
         /* Секция услуг */
@@ -165,22 +176,19 @@
     <header>
         <h1>Тонировка окон и продажа пленок</h1>
         <p>Мы делаем ваши окна стильными и безопасными!</p>
-    </header>
-    <div class="headerpravo">
-        <div class="d-flex justify-content-end">
-            <button class="btn btn-primary me-2" type="button">Вход</button>
-            <button class="btn btn-secondary" type="button">Регистрация</button>
-        </div>
-    </div>
-
-
-      
+    </header> 
       
     <!-- Меню навигации -->
     <nav>
-        <a href="#services">Услуги</a>
-        <a href="#films">Пленки</a>
-        <a href="#contact">Контакты</a>
+        <div>
+            <a href="#services">Услуги</a>
+            <a href="#films">Пленки</a>
+            <a href="#contact">Контакты</a>
+        </div>
+        <div class="auth-links">
+            <a href="#login">Вход</a>
+            <a href="#registration">Регистрация</a>
+        </div>
     </nav>
 
     <!-- Услуги -->
@@ -216,7 +224,6 @@
             <h3>Солнцезащитные пленки</h3>
             <p>Отличная защита от жарких солнечных лучей и уменьшение энергозатрат.</p>
             <a href="{% url 'shop_app:view_sun_film' %}"><button>Узнать больше</button></a>
-            
         </div>
 
         <div class="service-card">
