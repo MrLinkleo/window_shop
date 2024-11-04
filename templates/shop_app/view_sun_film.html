@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Солнцезащитные пленки</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -16,9 +17,6 @@
             color: white;
             text-align: center;
             padding: 20px;
-        }
-        h1 {
-            margin: 0;
         }
         .content {
             padding: 20px;
@@ -34,6 +32,24 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
+        .card {
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        .card .btn {
+            background-color: #007bff;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        .card .btn:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
@@ -45,37 +61,31 @@
     <div class="content">
         <h2>Все о солнцезащитных пленках</h2>
         <p>Солнцезащитные пленки защищают от вредного воздействия ультрафиолетовых лучей и помогают сохранять комфорт в помещении. Они предотвращают перегрев и уменьшают нагрузку на системы кондиционирования.</p>
-        <p>Преимущества солнцезащитных пленок:</p>
-        <ul>
-            <li>Снижение нагрева в помещениях</li>
-            <li>Защита от ультрафиолетовых лучей</li>
-            <li>Увеличение уединения и комфорт</li>
-            <li>Снижение затрат на кондиционирование</li>
-        </ul>
 
         <h2>Доступные солнцезащитные пленки</h2>
         <ul>
-            {% for film in sun_protection_films %}
+            {% for film in view_sun_film %}
                 <li>
-                    <h2>{{ film.name }}</h2>
-                    <p>{{ film.description }}</p>
-                    <p>Цена: {{ film.price }} руб.</p>
+                    <div class="card" style="width: 18rem;">
+                        <img src="{% if film.image %}{{ film.image.url }}{% else %}/media/films/default_image.jpg{% endif %}" class="card-img-top" alt="{{ film.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ film.name }}</h5>
+                            <p class="card-text">{{ film.description }}</p>
+                            <p>Цена: {{ film.price }} руб.</p>
+                            <a href="#" class="btn btn-primary">Купить в 1 клик</a>
+                        </div>
+                    </div>
                 </li>
             {% empty %}
-                <li>Нет доступных солнцезащитных пленок.
-                <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <a href="{% url 'add_film:add_film' %}">
-                <button type="button" class="btn btn-outline-primary">Добавить</button>
-                </a>
-                    <button type="button" class="btn btn-outline-primary">Изменить</button>
-                    <button type="button" class="btn btn-outline-primary">Удалить</button>
-                </div>
-                </li>
+                <p>Пока нет доступных пленок.</p>
             {% endfor %}
         </ul>
 
         <a href="{% url 'shop_app:home' %}">На главную</a>
     </div>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
