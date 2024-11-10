@@ -50,6 +50,58 @@
         .card .btn:hover {
             background-color: #0056b3;
         }
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 15px;
+        }
+        .quantity-input {
+            max-width: 60px;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+        .modal-footer button {
+            width: 30%;
+        }
+        .cart-item {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .cart-item img {
+            max-width: 120px;
+            height: auto;
+            margin-right: 20px;
+        }
+        .cart-item-details {
+            flex-grow: 1;
+        }
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .quantity-controls input {
+            margin-right: 10px;
+            max-width: 60px;
+        }
+        .modal-dialog {
+            max-width: 800px; /* Увеличиваем ширину модального окна */
+        }
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-body p {
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
@@ -72,7 +124,8 @@
                             <h5 class="card-title">{{ film.name }}</h5>
                             <p class="card-text">{{ film.description }}</p>
                             <p>Цена: {{ film.price }} руб.</p>
-                            <a href="#" class="btn btn-primary">Купить в 1 клик</a>
+                            <p>Количество на складе: {{ film.stock }} шт.</p>
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#cartModal" onclick="addToCart('{{ film.name }}', '{{ film.price }}', '{{ film.description|escapejs }}', '{% if film.image %}{{ film.image.url }}{% else %}/media/films/default_image.jpg{% endif %}')">В корзину</button>
                         </div>
                     </div>
                 </li>
@@ -84,8 +137,86 @@
         <a href="{% url 'shop_app:home' %}">На главную</a>
     </div>
 
+    <!-- Модальное окно корзины -->
+    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cartModalLabel">Корзина</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItemDetails">
+                        <!-- Здесь будет отображаться товар -->
+                    </div>
+                    <p>Общее количество: <span id="totalQuantity">0</span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Продолжить покупки</button>
+                    <button type="button" class="btn btn-primary" onclick="addToCartInBasket()">Добавить в корзину</button>
+                    <button type="button" class="btn btn-primary" onclick="goToCart()">Перейти в корзину</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let cart = [];
+
+        // Функция для добавления товара в корзину
+        function addToCart(name, price, description, imageUrl) {
+            const cartItemDetails = document.getElementById('cartItemDetails');
+            const totalQuantity = document.getElementById('totalQuantity');
+
+            // Создаем элемент для отображения товара в корзине
+            cartItemDetails.innerHTML = `
+                <div class="cart-item">
+                    <img src="${imageUrl}" alt="${name}" class="img-fluid">
+                    <div class="cart-item-details">
+                        <h5>${name}</h5>
+                        <p>${description}</p>
+                        <p><strong>Цена:</strong> ${price} руб.</p>
+                        <label for="quantity">Количество:</label>
+                        <input type="number" id="quantity" class="form-control quantity-input" value="1" min="1" onchange="updateTotalQuantity()">
+                    </div>
+                </div>
+            `;
+            updateTotalQuantity();
+        }
+
+        // Функция для обновления общего количества товаров
+        function updateTotalQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            const total = quantityInput ? parseInt(quantityInput.value) : 0;
+            document.getElementById('totalQuantity').innerText = total;
+        }
+
+        // Функция для добавления товара в корзину
+        function addToCartInBasket() {
+            const name = document.querySelector('#cartItemDetails h5').innerText;
+            const price = document.querySelector('#cartItemDetails p').innerText.split(': ')[1];
+            const quantity = parseInt(document.getElementById('quantity').value);
+
+            // Добавляем товар в массив корзины
+            cart.push({ name, price, quantity });
+
+            // Закрываем модальное окно
+            $('#cartModal').modal('hide');
+
+            // Выводим сообщение
+            alert(`${name} добавлен в корзину!`);
+        }
+
+        // Функция для перехода в корзину (пока просто сообщение)
+        function goToCart() {
+            alert('Перехожу в корзину...');
+            // Здесь можно добавить логику для перехода на страницу корзины
+        }
+    </script>
 </body>
 </html>
