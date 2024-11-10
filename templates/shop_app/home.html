@@ -72,6 +72,12 @@
             text-decoration: underline; /* Подчеркивание при наведении */
         }
 
+        /* Выделение имени пользователя */
+        .user-name {
+            color: #ffd700; /* Цвет для имени пользователя */
+            font-weight: bold;
+        }
+
         /* Секция услуг */
         .services {
             background-color: white;
@@ -187,8 +193,15 @@
             <a href="#contact">Контакты</a>
         </div>
         <div class="auth-links">
-            <a href="{% url 'users:login' %}">Вход</a>
-            <a href="{% url 'users:register' %}">Регистрация</a>
+            {% if user.is_authenticated %}
+                <!-- Если пользователь авторизован, показываем его имя как ссылку на личный кабинет и кнопку выхода -->
+                <a href="{% url 'users:profile' %}" class="user-name">{{ user.username }}</a>
+                <a href="{% url 'users:logout' %}" class="btn btn-outline-danger">Выход</a>
+            {% else %}
+                <!-- Если пользователь не авторизован, показываем кнопки входа и регистрации -->
+                <a href="{% url 'users:login' %}" class="btn btn-outline-primary">Вход</a>
+                <a href="{% url 'users:register' %}" class="btn btn-outline-success">Регистрация</a>
+            {% endif %}
         </div>
     </nav>
 
@@ -257,3 +270,4 @@
 
 </body>
 </html>
+
