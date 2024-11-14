@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import RegisterForm
 from django.urls import reverse
+from django.http import JsonResponse
 
 
 def register_view(request):
@@ -12,9 +13,15 @@ def register_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)  # Автоматический вход после регистрации
-            return redirect('users:profile')  # Перенаправление в личный кабинет
+            # Возвращаем успешный ответ
+            return JsonResponse({"success": True, "redirect_url": reverse('users:profile')})
+        else:
+            # Если форма невалидна, возвращаем ошибки в формате JSON
+            return JsonResponse({"success": False, "errors": form.errors})
+
     else:
         form = RegisterForm()
+
     return render(request, 'users/register.html', {'form': form})
 
 def login_view(request):
@@ -25,8 +32,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            # Перенаправление в личный кабинет
-            return redirect(reverse('users:profile'))  # Используем имя маршрута
+            return redirect('users:profile')  # Перенаправление в личный кабинет
         else:
             error_message = "Неверное имя пользователя или пароль."
     else:

@@ -1,273 +1,131 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <title>Тонировка окон и пленки</title>
+{% extends 'base.html' %}
+
+{% block title %}Главная - Тонировка окон и пленки{% endblock %}
+
+{% block extra_css %}
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
+        /* Стили для карточек и модальных окон, которые уже у тебя есть */
+        .card {
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
 
-        /* Основной заголовок */
-        header {
-            background-image: url('https://example.com/window_tinting.jpg'); /* Замените URL на свою картинку */
-            background-size: cover;
-            background-position: center;
-            color: white;
-            text-align: center;
-            padding: 100px 20px;
-        }
-        
-        header h1 {
-            font-size: 48px;
-            margin: 0;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-        }
-
-        header p {
-            font-size: 20px;
-            margin: 10px 0;
-        }
-
-        /* Основное меню */
-        nav {
-            display: flex; /* Используем Flexbox для выравнивания элементов */
-            justify-content: space-between; /* Разделяем элементы между концами */
-            align-items: center; /* Выравнивание по центру по вертикали */
-            background-color: #333;
-            padding: 10px;
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px; /* Размер текста для основных ссылок */
-            text-transform: uppercase;
-        }
-
-        nav a:hover {
-            color: #ffd700; /* Изменение цвета текста при наведении */
-        }
-
-        /* Кнопки для входа и регистрации */
-        .auth-links {
-            margin-left: auto; /* Отталкиваем блок с авторизацией вправо */
-        }
-
-        .auth-links a {
-            color: white; /* Цвет текста для ссылок */
-            margin: 0 10px;
-            font-size: 14px; /* Уменьшаем размер текста для ссылок "Вход" и "Регистрация" */
-            text-transform: uppercase;
-            text-decoration: none;
-        }
-
-        .auth-links a:hover {
-            text-decoration: underline; /* Подчеркивание при наведении */
-        }
-
-        /* Выделение имени пользователя */
-        .user-name {
-            color: #ffd700; /* Цвет для имени пользователя */
-            font-weight: bold;
-        }
-
-        /* Секция услуг */
-        .services {
-            background-color: white;
-            padding: 50px 20px;
-            text-align: center;
-        }
-
-        .services h2 {
-            font-size: 36px;
-            margin-bottom: 30px;
-            color: #333;
-        }
-
-        .service-card {
-            display: inline-block;
-            width: 300px;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f8f8f8;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .service-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .service-card h3 {
-            font-size: 24px;
-            margin: 15px 0;
-        }
-
-        .service-card p {
-            font-size: 16px;
-            color: #555;
-        }
-
-        .service-card button {
+        /* Эффекты при наведении на кнопки */
+        .btn-success {
             background-color: #28a745;
             color: white;
             border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-            margin-top: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
 
-        .service-card button:hover {
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             background-color: #218838;
         }
 
-        /* Блок с контактной информацией */
-        .contact {
-            background-color: #333;
-            color: white;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .contact h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-        }
-
-        .contact p {
-            font-size: 18px;
-            margin: 5px 0;
-        }
-
-        .contact a {
-            color: #ffd700;
-            text-decoration: none;
-        }
-
-        .contact a:hover {
-            text-decoration: underline;
-        }
-
-        /* Футер */
-        footer {
-            background-color: #222;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-        }
-
-        footer p {
-            margin: 0;
-            font-size: 14px;
+        .btn-success:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
     </style>
-</head>
-<body>
+{% endblock %}
 
-    <!-- Шапка сайта -->
-    <header>
-        <h1>Тонировка окон и продажа пленок</h1>
-        <p>Мы делаем ваши окна стильными и безопасными!</p>
-    </header> 
-      
-    <!-- Меню навигации -->
-    <nav>
-        <div>
-            <a href="#services">Услуги</a>
-            <a href="#films">Пленки</a>
-            <a href="#contact">Контакты</a>
+
+{% block content %}
+<!-- Герой секция -->
+<section class="hero mb-5">
+    <h1>Тонировка окон и продажа пленок</h1>
+    <p>Мы делаем ваши окна стильными и безопасными!</p>
+</section>
+
+<!-- Секция услуг -->
+<section id="services" class="mb-5">
+    <h2 class="text-center mb-4">Наши услуги</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <img src="https://example.com/tint_service.jpg" class="card-img-top" alt="Тонировка авто">
+                <div class="card-body">
+                    <h5 class="card-title">Тонировка автомобилей</h5>
+                    <p class="card-text">Профессиональная тонировка стекол авто для защиты от солнца и повышения конфиденциальности.</p>
+                    <button class="btn btn-success">Узнать больше</button>
+                </div>
+            </div>
         </div>
-        <div class="auth-links">
-            {% if user.is_authenticated %}
-                <!-- Если пользователь авторизован, показываем его имя как ссылку на личный кабинет и кнопку выхода -->
-                <a href="{% url 'users:profile' %}" class="user-name">{{ user.username }}</a>
-                <a href="{% url 'users:logout' %}" class="btn btn-outline-danger">Выход</a>
-            {% else %}
-                <!-- Если пользователь не авторизован, показываем кнопки входа и регистрации -->
-                <a href="{% url 'users:login' %}" class="btn btn-outline-primary">Вход</a>
-                <a href="{% url 'users:register' %}" class="btn btn-outline-success">Регистрация</a>
-            {% endif %}
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <img src="https://example.com/window_tint.jpg" class="card-img-top" alt="Тонировка домов">
+                <div class="card-body">
+                    <h5 class="card-title">Тонировка окон домов</h5>
+                    <p class="card-text">Энергосбережение, защита от ультрафиолета и уют в вашем доме с нашими тонировочными пленками.</p>
+                    <button class="btn btn-success">Узнать больше</button>
+                </div>
+            </div>
         </div>
-    </nav>
-
-    <!-- Услуги -->
-    <section id="services" class="services">
-        <h2>Наши услуги</h2>
-        <div class="service-card">
-            <img src="https://example.com/tint_service.jpg" alt="Тонировка авто">
-            <h3>Тонировка автомобилей</h3>
-            <p>Профессиональная тонировка стекол авто для защиты от солнца и повышения конфиденциальности.</p>
-            <button>Узнать больше</button>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <img src="https://example.com/office_tint.jpg" class="card-img-top" alt="Тонировка офисов">
+                <div class="card-body">
+                    <h5 class="card-title">Тонировка офисов</h5>
+                    <p class="card-text">Современные решения для офисов — уменьшение бликов и комфорт для сотрудников.</p>
+                    <button class="btn btn-success">Узнать больше</button>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
 
-        <div class="service-card">
-            <img src="https://example.com/window_tint.jpg" alt="Тонировка домов">
-            <h3>Тонировка окон домов</h3>
-            <p>Энергосбережение, защита от ультрафиолета и уют в вашем доме с нашими тонировочными пленками.</p>
-            <button>Узнать больше</button>
+<!-- Секция пленок -->
+<section id="films" class="mb-5">
+    <h2 class="text-center mb-4">Тонировочные пленки</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <img src="https://example.com/sun_protection_film.jpg" class="card-img-top" alt="Солнцезащитная пленка">
+                <div class="card-body">
+                    <h5 class="card-title">Солнцезащитные пленки</h5>
+                    <p class="card-text">Отличная защита от жарких солнечных лучей и уменьшение энергозатрат.</p>
+                    <a href="{% url 'shop_app:view_sun_film' %}" class="btn btn-success">Узнать больше</a>
+                </div>
+            </div>
         </div>
-
-        <div class="service-card">
-            <img src="https://example.com/office_tint.jpg" alt="Тонировка офисов">
-            <h3>Тонировка офисов</h3>
-            <p>Современные решения для офисов — уменьшение бликов и комфорт для сотрудников.</p>
-            <button>Узнать больше</button>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <img src="https://example.com/security_film.jpg" class="card-img-top" alt="Защитная пленка">
+                <div class="card-body">
+                    <h5 class="card-title">Защитные пленки</h5>
+                    <p class="card-text">Укрепление стекол и защита от разбития — надежные решения для безопасности.</p>
+                    <a href="{% url 'shop_app:view_security_film' %}" class="btn btn-success">Узнать больше</a>
+                </div>
+            </div>
         </div>
-    </section>
-
-    <!-- Пленки -->
-    <section id="films" class="services">
-        <h2>Тонировочные пленки</h2>
-        <div class="service-card">
-            <img src="https://example.com/sun_protection_film.jpg" alt="Солнцезащитная пленка">
-            <h3>Солнцезащитные пленки</h3>
-            <p>Отличная защита от жарких солнечных лучей и уменьшение энергозатрат.</p>
-            <a href="{% url 'shop_app:view_sun_film' %}"><button>Узнать больше</button></a>
+        <div class="col-md-4 mb-4">
+            <div class="card shadow">
+                <img src="https://example.com/decoration_film.jpg" class="card-img-top" alt="Декоративная пленка">
+                <div class="card-body">
+                    <h5 class="card-title">Декоративные пленки</h5>
+                    <p class="card-text">Добавьте стиль и приватность вашему дому или офису с помощью декоративных пленок.</p>
+                    <a href="{% url 'shop_app:view_decoration_film' %}" class="btn btn-success">Узнать больше</a>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
 
-        <div class="service-card">
-            <img src="https://example.com/security_film.jpg" alt="Защитная пленка">
-            <h3>Защитные пленки</h3>
-            <p>Укрепление стекол и защита от разбития — надежные решения для безопасности.</p>
-            <a href="{% url 'shop_app:view_security_film' %}"><button>Узнать больше</button></a>
-        </div>
+<!-- Контактная информация -->
+<section id="contact" class="text-center bg-dark text-white py-5">
+    <h2>Контакты</h2>
+    <p>Телефон: <a href="tel:+79991234567" class="text-warning">+7 (999) 123-45-67</a></p>
+    <p>Email: <a href="mailto:info@tonirovka.com" class="text-warning">info@tonirovka.com</a></p>
+    <p>Адрес: ул. Примерная, д. 10, г. Москва</p>
+</section>
+{% endblock %}
 
-        <div class="service-card">
-            <img src="https://example.com/decoration_film.jpg" alt="Декоративная пленка">
-            <h3>Декоративные пленки</h3>
-            <p>Добавьте стиль и приватность вашему дому или офису с помощью декоративных пленок.</p>
-            <a href="{% url 'shop_app:view_decoration_film' %}"><button>Узнать больше</button></a>
-        </div>
-    </section>
-
-    <!-- Контактная информация -->
-    <section id="contact" class="contact">
-        <h2>Контакты</h2>
-        <p>Телефон: <a href="tel:+79991234567">+7 (999) 123-45-67</a></p>
-        <p>Email: <a href="mailto:info@tonirovka.com">info@tonirovka.com</a></p>
-        <p>Адрес: ул. Примерная, д. 10, г. Москва</p>
-    </section>
-
-    <!-- Футер -->
-    <footer>
-        <p>&copy; 2024 Тонировка окон и пленки. Все права защищены.</p>
-    </footer>
-
-</body>
-</html>
 

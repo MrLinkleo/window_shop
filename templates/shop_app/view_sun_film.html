@@ -1,37 +1,9 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Солнцезащитные пленки</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+{% extends "base.html" %}
+
+{% block title %}Солнцезащитные пленки{% endblock %}
+
+{% block extra_css %}
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-        header {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
-        .content {
-            padding: 20px;
-        }
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        li {
-            background: white;
-            margin: 10px 0;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
         .card {
             border: none;
             border-radius: 5px;
@@ -41,14 +13,6 @@
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-        .card .btn {
-            background-color: #007bff;
-            border: none;
-            transition: background-color 0.3s;
-        }
-        .card .btn:hover {
-            background-color: #0056b3;
         }
         .modal-body img {
             max-width: 100%;
@@ -61,81 +25,55 @@
         .modal-footer {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             width: 100%;
-        }
-        .modal-footer button {
-            width: 30%;
         }
         .cart-item {
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
+            margin-bottom: 15px;
         }
         .cart-item img {
             max-width: 120px;
             height: auto;
-            margin-right: 20px;
+            margin-right: 15px;
         }
         .cart-item-details {
             flex-grow: 1;
         }
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .quantity-controls input {
-            margin-right: 10px;
-            max-width: 60px;
-        }
         .modal-dialog {
-            max-width: 800px; /* Увеличиваем ширину модального окна */
-        }
-        .modal-body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        .modal-body p {
-            margin-bottom: 15px;
+            max-width: 800px;
         }
     </style>
-</head>
-<body>
+{% endblock %}
 
-    <header>
-        <h1>Солнцезащитные пленки</h1>
-    </header>
+{% block content %}
+    <h2>Все о солнцезащитных пленках</h2>
+    <p>Солнцезащитные пленки защищают от вредного воздействия ультрафиолетовых лучей и помогают сохранять комфорт в помещении. Они предотвращают перегрев и уменьшают нагрузку на системы кондиционирования.</p>
 
-    <div class="content">
-        <h2>Все о солнцезащитных пленках</h2>
-        <p>Солнцезащитные пленки защищают от вредного воздействия ультрафиолетовых лучей и помогают сохранять комфорт в помещении. Они предотвращают перегрев и уменьшают нагрузку на системы кондиционирования.</p>
-
-        <h2>Доступные солнцезащитные пленки</h2>
-        <ul>
-            {% for film in view_sun_film %}
-                <li>
-                    <div class="card" style="width: 18rem;">
-                        <img src="{% if film.image %}{{ film.image.url }}{% else %}/media/films/default_image.jpg{% endif %}" class="card-img-top" alt="{{ film.name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ film.name }}</h5>
-                            <p class="card-text">{{ film.description }}</p>
-                            <p>Цена: {{ film.price }} руб.</p>
-                            <p>Количество на складе: {{ film.stock }} шт.</p>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#cartModal" onclick="addToCart('{{ film.name }}', '{{ film.price }}', '{{ film.description|escapejs }}', '{% if film.image %}{{ film.image.url }}{% else %}/media/films/default_image.jpg{% endif %}')">В корзину</button>
-                        </div>
+    <h2 class="mt-4">Доступные солнцезащитные пленки</h2>
+    <div class="row">
+        {% for film in view_sun_film %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <img src="{% if film.image %}{{ film.image.url }}{% else %}/media/films/default_image.jpg{% endif %}" class="card-img-top" alt="{{ film.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ film.name }}</h5>
+                        <p class="card-text">{{ film.description }}</p>
+                        <p>Цена: <strong>{{ film.price }} руб.</strong></p>
+                        <p>Количество на складе: {{ film.stock }} шт.</p>
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#cartModal" onclick="addToCart('{{ film.name }}', '{{ film.price }}', '{{ film.description|escapejs }}', '{% if film.image %}{{ film.image.url }}{% else %}/media/films/default_image.jpg{% endif %}')">В корзину</button>
                     </div>
-                </li>
-            {% empty %}
-                <p>Пока нет доступных пленок.</p>
-            {% endfor %}
-        </ul>
-
-        <a href="{% url 'shop_app:home' %}">На главную</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <p class="alert alert-warning">Пока нет доступных пленок.</p>
+            </div>
+        {% endfor %}
     </div>
+
+    <a href="{% url 'shop_app:home' %}" class="btn btn-secondary mt-4">На главную</a>
 
     <!-- Модальное окно корзины -->
     <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
@@ -148,9 +86,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div id="cartItemDetails">
-                        <!-- Здесь будет отображаться товар -->
-                    </div>
+                    <div id="cartItemDetails" class="cart-item"></div>
                     <p>Общее количество: <span id="totalQuantity">0</span></p>
                 </div>
                 <div class="modal-footer">
@@ -161,19 +97,15 @@
             </div>
         </div>
     </div>
+{% endblock %}
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% block extra_js %}
     <script>
         let cart = [];
 
-        // Функция для добавления товара в корзину
         function addToCart(name, price, description, imageUrl) {
             const cartItemDetails = document.getElementById('cartItemDetails');
             const totalQuantity = document.getElementById('totalQuantity');
-
-            // Создаем элемент для отображения товара в корзине
             cartItemDetails.innerHTML = `
                 <div class="cart-item">
                     <img src="${imageUrl}" alt="${name}" class="img-fluid">
@@ -189,34 +121,25 @@
             updateTotalQuantity();
         }
 
-        // Функция для обновления общего количества товаров
         function updateTotalQuantity() {
             const quantityInput = document.getElementById('quantity');
             const total = quantityInput ? parseInt(quantityInput.value) : 0;
             document.getElementById('totalQuantity').innerText = total;
         }
 
-        // Функция для добавления товара в корзину
         function addToCartInBasket() {
             const name = document.querySelector('#cartItemDetails h5').innerText;
             const price = document.querySelector('#cartItemDetails p').innerText.split(': ')[1];
             const quantity = parseInt(document.getElementById('quantity').value);
-
-            // Добавляем товар в массив корзины
             cart.push({ name, price, quantity });
-
-            // Закрываем модальное окно
             $('#cartModal').modal('hide');
-
-            // Выводим сообщение
             alert(`${name} добавлен в корзину!`);
         }
 
-        // Функция для перехода в корзину (пока просто сообщение)
         function goToCart() {
             alert('Перехожу в корзину...');
-            // Здесь можно добавить логику для перехода на страницу корзины
         }
     </script>
-</body>
-</html>
+{% endblock %}
+
+
