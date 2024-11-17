@@ -8,9 +8,9 @@ from django.contrib.auth.forms import UserCreationForm
 
 def register_view(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserCreationForm(request.POST, request.FILES)
         if form.is_valid():
-            user = form.save()  # Сохраняем пользователя
+            user = form.save()  # Сохраняем пользователя через вашу модель
             login(request, user)  # Автоматический вход после регистрации
             return JsonResponse({"status": "success", "message": "Регистрация прошла успешно"})
         else:
