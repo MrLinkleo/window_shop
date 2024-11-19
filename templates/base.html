@@ -238,7 +238,8 @@
                         });
         
                         if (response.ok) {
-                            window.location.href = '/profile';  // Перенаправление в личный кабинет
+                            const data = await response.json();  // Получаем данные из ответа
+                            window.location.href = data.redirect_url;  // Используем URL из ответа сервера для редиректа
                         } else {
                             const errorData = await response.json();
                             alert(`Ошибка регистрации: ${errorData.message || 'Неизвестная ошибка'}`);
