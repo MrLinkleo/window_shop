@@ -199,7 +199,7 @@
                     });
         
                     if (response.ok) {
-                        location.reload(); // Перезагружаем страницу после успешного входа
+                        window.location.href = '/users/profile/';
                     } else {
                         alert('Ошибка входа');
                     }
@@ -213,33 +213,36 @@
                     const email = document.getElementById('registerEmail').value;
                     const password = document.getElementById('registerPassword1').value;
                     const confirmPassword = document.getElementById('registerPassword2').value;
-        
+
                     // Проверка на совпадение паролей
                     if (password !== confirmPassword) {
                         alert('Пароли не совпадают');
                         return;
                     }
-        
-                    const url = "{% url 'users:register' %}";  // URL для регистрации
-        
-                    const formData = new FormData();
-                    formData.append('username', username);
-                    formData.append('email', email);
-                    formData.append('password1', password);
-                    formData.append('password2', confirmPassword);
-        
+
+                    const data = {
+                        username: username,
+                        email: email,
+                        password1: password,
+                        password2: confirmPassword
+                    };
+
                     try {
-                        const response = await fetch(url, {
+                        const response = await fetch('/users/register/', {
                             method: 'POST',
-                            body: formData,
                             headers: {
+                                'Content-Type': 'application/json',
                                 'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
-                            }
+                            },
+                            body: JSON.stringify(data)
                         });
-        
+
                         if (response.ok) {
-                            const data = await response.json();  // Получаем данные из ответа
-                            window.location.href = data.redirect_url;  // Используем URL из ответа сервера для редиректа
+                            // Получаем данные из ответа сервера
+                            const result = await response.json();
+
+                            // Перенаправляем пользователя в личный кабинет после успешной регистрации
+                            window.location.href = '/users/profile/';  // Путь, куда нужно перенаправить
                         } else {
                             const errorData = await response.json();
                             alert(`Ошибка регистрации: ${errorData.message || 'Неизвестная ошибка'}`);
@@ -262,7 +265,7 @@
                     });
         
                     if (response.ok) {
-                        location.reload(); // Перезагружаем страницу после выхода
+                        window.location.href = '/users/home/';
                     } else {
                         alert('Ошибка выхода');
                     }

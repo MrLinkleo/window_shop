@@ -12,44 +12,46 @@ from django.contrib.auth import authenticate, login
 
 User = get_user_model()
 
-@csrf_exempt  # Отключаем CSRF-проверку, если это нужно
+@require_POST
 def register_view(request):
     try:
-        # Чтение JSON-данных из тела запроса
+        # Получаем данные из тела запроса
         data = json.loads(request.body)
 
-        # Передаем данные в форму для валидации
-        form = UserCreationForm(data)
+        username = data.get('username')
+        email = data.get('email')
+        password1 = data.get('password1')
+        password2 = data.get('password2')
 
-        if form.is_valid():
-            # Сохраняем пользователя, если форма валидна
-            user = form.save()
+        # Проверка совпадения паролей
+        if password1 != password2:
+            return JsonResponse({"status": "error", "message": "Пароли не совпадают"}, status=400)
 
-            # Логиним пользователя
-            login(request, user)
+        # Проверка на существование пользователя с таким именем или email
+        if User.objects.filter(username=username).exists():
+            return JsonResponse({"status": "error", "message": "Пользователь с таким именем уже существует"}, status=400)
 
-            # Отправляем успешный ответ
-            return JsonResponse({"status": "success", "message": "Регистрация прошла успешно"})
-        else:
-            # Возвращаем ошибку, если форма не валидна
-            return JsonResponse({"status": "error", "message": form.errors.as_json()})
+        if User.objects.filter(email=email).exists():
+            return JsonResponse({"status": "error", "message": "Пользователь с таким email уже существует"}, status=400)
 
-    except json.JSONDecodeError:
-        # Возвращаем ошибку, если JSON-формат некорректен
-        return JsonResponse({"status": "error", "message": "Ошибка в формате JSON"})
+        # Создание нового пользователя
+        user = User.objects.create_user(username=username, email=email, password=password1)
+
+        # Авторизация нового пользователя
+        login(request, user)
+
+        return JsonResponse({"status": "success", "message": "Регистрация успешна"})
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": f"Ошибка на сервере: {str(e)}"}, status=500)
 
 @require_POST
 def login_view(request):
     try:
-        # Получаем данные из тела запроса в формате JSON
         data = json.loads(request.body)
-
         username = data.get('username')
         password = data.get('password')
 
-        # Проверяем данные пользователя
         user = authenticate(request, username=username, password=password)
-
         if user is not None:
             login(request, user)
             return JsonResponse({"status": "success", "message": "Успешный вход"})
