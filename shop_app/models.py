@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-
 User = get_user_model()
 
 class Film(models.Model):
@@ -13,8 +12,8 @@ class Film(models.Model):
     
     name = models.CharField(max_length=100, default='Нет названия')
     description = models.TextField(default='Нет описания')
-    quantity = models.PositiveBigIntegerField(default=0)  # Количество должно быть числом
-    price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    stock = models.PositiveBigIntegerField(default=0)  # Количество должно быть числом
+    price = models.DecimalField(max_digits=10, decimal_places=2, null=True, default=0)
     image = models.ImageField(upload_to='films/', default='films/default_image.jpg')
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='sun')
     
@@ -25,3 +24,21 @@ class Film(models.Model):
         if self.image:
             self.image.delete()
         super().delete(*args, **kwargs)
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Корзина пользователя {self.user.username}"
+
+class CartItem(models.Model):
+    cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE, default=1)
+    product = models.ForeignKey(Film, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+
+    def get_total_price(self):
+        return self.product.price * self.quantity
+
+    def __str__(self):
+        return f"{self.product.name} ({self.quantity} шт.)"

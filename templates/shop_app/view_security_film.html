@@ -61,17 +61,7 @@
     <h2 class="mt-4">Доступные защитные пленки</h2>
     <div class="row">
         {% for film in security_films %}
-            <div class="col-md-4 mb-4">
-                <div class="card">
-                    <img src="{% if film.image %}{{ film.image.url }}{% else %}/media/films/default_image.jpg{% endif %}" class="card-img-top" alt="{{ film.name }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ film.name }}</h5>
-                        <p class="card-text">{{ film.description }}</p>
-                        <p>Цена: <strong>{{ film.price }} руб.</strong></p>
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#cartModal" onclick="addToCart('{{ film.name }}', '{{ film.price }}', '{{ film.description|escapejs }}', '{% if film.image %}{{ film.image.url }}{% else %}/media/films/default_image.jpg{% endif %}')">В корзину</button>
-                    </div>
-                </div>
-            </div>
+            {% include "partials/product_card.html" with product=film %}
         {% empty %}
             <div class="col-12">
                 <p class="alert alert-warning">Нет доступных защитных пленок.</p>
@@ -81,72 +71,9 @@
 
     <a href="{% url 'shop_app:home' %}" class="btn btn-secondary mt-4">На главную</a>
 
-    <!-- Модальное окно корзины -->
-    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="cartModalLabel">Корзина</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="cartItemDetails" class="cart-item"></div>
-                    <p>Общее количество: <span id="totalQuantity">0</span></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Продолжить покупки</button>
-                    <button type="button" class="btn btn-primary" onclick="addToCartInBasket()">Добавить в корзину</button>
-                    <button type="button" class="btn btn-primary" onclick="goToCart()">Перейти в корзину</button>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}
 
-{% block extra_js %}
-    <script>
-        let cart = [];
 
-        function addToCart(name, price, description, imageUrl) {
-            const cartItemDetails = document.getElementById('cartItemDetails');
-            const totalQuantity = document.getElementById('totalQuantity');
-            cartItemDetails.innerHTML = `
-                <div class="cart-item">
-                    <img src="${imageUrl}" alt="${name}" class="img-fluid">
-                    <div class="cart-item-details">
-                        <h5>${name}</h5>
-                        <p>${description}</p>
-                        <p><strong>Цена:</strong> ${price} руб.</p>
-                        <label for="quantity">Количество:</label>
-                        <input type="number" id="quantity" class="form-control quantity-input" value="1" min="1" onchange="updateTotalQuantity()">
-                    </div>
-                </div>
-            `;
-            updateTotalQuantity();
-        }
-
-        function updateTotalQuantity() {
-            const quantityInput = document.getElementById('quantity');
-            const total = quantityInput ? parseInt(quantityInput.value) : 0;
-            document.getElementById('totalQuantity').innerText = total;
-        }
-
-        function addToCartInBasket() {
-            const name = document.querySelector('#cartItemDetails h5').innerText;
-            const price = document.querySelector('#cartItemDetails p').innerText.split(': ')[1];
-            const quantity = parseInt(document.getElementById('quantity').value);
-            cart.push({ name, price, quantity });
-            $('#cartModal').modal('hide');
-            alert(`${name} добавлен в корзину!`);
-        }
-
-        function goToCart() {
-            alert('Перехожу в корзину...');
-        }
-    </script>
-{% endblock %}
 
 
 

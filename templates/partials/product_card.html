@@ -1,0 +1,15 @@
+<div class="col-md-4 mb-4">
+    <div class="card">
+        <img src="{% if product.image %}{{ product.image.url }}{% else %}/media/films/default_image.jpg{% endif %}" class="card-img-top" alt="{{ product.name }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.description }}</p>
+            <p>Цена: <strong>{{ product.price }} руб.</strong></p>
+            <p>В наличии: <strong>{{ film.stock }}</strong> шт.</p>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#cartModal"
+                    onclick="addToCart('{{ product.name }}', '{{ product.price }}', '{{ product.description|escapejs }}', '{% if product.image %}{{ product.image.url }}{% else %}/media/films/default_image.jpg{% endif %}')">
+                В корзину
+            </button>
+        </div>
+    </div>
+</div>

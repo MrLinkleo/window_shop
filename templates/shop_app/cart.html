@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Личный Кабинет{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Корзина</h1>
+
+    {% if cart_items %}
+        <table class="table table-striped table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Товар</th>
+                    <th>Количество</th>
+                    <th>Цена</th>
+                    <th>Сумма</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart_items %}
+                    <tr>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price }} руб.</td>
+                        <td>{{ item.get_total_price }} руб.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row">
+            <div class="col-md-6">
+                <a href="{% url 'shop' %}" class="btn btn-secondary">Продолжить покупки</a>
+            </div>
+            <div class="col-md-6 text-right">
+                <h4>Общая сумма: <strong>{{ total_price }} руб.</strong></h4>
+                <a href="{% url 'checkout' %}" class="btn btn-success">Перейти к оформлению</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center" role="alert">
+            Ваша корзина пуста! <a href="{% url 'home' %}" class="alert-link">Вернуться в магазин</a>.
+        </div>
+    {% endif %}
+</div>
+    
+{% endblock %}
+
+
