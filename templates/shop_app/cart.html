@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Личный Кабинет{% endblock %}
+{% block title %}Корзина{% endblock %}
 
 {% block content %}
 
@@ -15,15 +15,22 @@
                     <th>Количество</th>
                     <th>Цена</th>
                     <th>Сумма</th>
+                    <th>Действия</th>
                 </tr>
             </thead>
             <tbody>
                 {% for item in cart_items %}
-                    <tr>
+                    <tr id="cart-item-{{ item.id }}">
                         <td>{{ item.product.name }}</td>
-                        <td>{{ item.quantity }}</td>
+                        <td>
+                            <input type="number" id="quantity-{{ item.id }}" value="{{ item.quantity }}" min="1" class="form-control" 
+                                   onchange="updateQuantity({{ item.id }})">
+                        </td>
                         <td>{{ item.product.price }} руб.</td>
                         <td>{{ item.get_total_price }} руб.</td>
+                        <td>
+                            <button class="btn btn-danger" onclick="deleteItem({{ item.id }})">Удалить</button>
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -31,11 +38,11 @@
 
         <div class="row">
             <div class="col-md-6">
-                <a href="{% url 'shop' %}" class="btn btn-secondary">Продолжить покупки</a>
+                <a href="{% url 'shop_app:cart' %}" class="btn btn-secondary">Продолжить покупки</a>
             </div>
             <div class="col-md-6 text-right">
-                <h4>Общая сумма: <strong>{{ total_price }} руб.</strong></h4>
-                <a href="{% url 'checkout' %}" class="btn btn-success">Перейти к оформлению</a>
+                <h4>Общая сумма: <strong id="total-price">{{ total_price }} руб.</strong></h4>
+                <a href="#" class="btn btn-success">Перейти к оформлению</a>
             </div>
         </div>
     {% else %}
@@ -44,7 +51,73 @@
         </div>
     {% endif %}
 </div>
-    
+
+
+
+<script>
+    // Функция для обновления количества товара в корзине
+    function updateQuantity(cartItemId) {
+        const quantity = document.getElementById('quantity-' + cartItemId).value;
+        console.log('Обновление количества для товара с ID:', cartItemId, 'Количество:', quantity);
+
+        fetch("{% url 'shop_app:update_cart_item' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: new URLSearchParams({
+                'cart_item_id': cartItemId,
+                'quantity': quantity
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Обновляем сумму в корзине
+                document.getElementById('total-price').innerText = data.total_price + ' руб.';
+            } else {
+                alert("Ошибка при обновлении количества товара");
+            }
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+    }
+
+    // Функция для удаления товара из корзины
+    function deleteItem(cartItemId) {
+        if (confirm('Вы уверены, что хотите удалить этот товар из корзины?')) {
+            fetch("{% url 'shop_app:delete_cart_item' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: new URLSearchParams({
+                    'cart_item_id': cartItemId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Удаляем строку товара из таблицы
+                    document.getElementById('cart-item-' + cartItemId).remove();
+                    // Обновляем общую сумму корзины
+                    document.getElementById('total-price').innerText = data.total_price + ' руб.';
+                } else {
+                    alert("Ошибка при удалении товара");
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                alert("Произошла ошибка при запросе.");
+            });
+        }
+    }
+</script>
 {% endblock %}
+
+
 
 

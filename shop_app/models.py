@@ -33,7 +33,7 @@ class Cart(models.Model):
         return f"Корзина пользователя {self.user.username}"
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE, default=1)
+    cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
     product = models.ForeignKey(Film, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
 
