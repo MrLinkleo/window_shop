@@ -13,4 +13,5 @@ urlpatterns = [
     path('update-cart-item/', views.update_cart_item, name='update_cart_item'),
     path('delete-cart-item/', views.delete_cart_item, name='delete_cart_item'),
     path('contacts/', views.contacts, name='contacts'),
+    path('invoice/', views.generate_invoice, name='invoice'),
 ]

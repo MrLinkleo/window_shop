@@ -42,7 +42,7 @@
             </div>
             <div class="col-md-6 text-right">
                 <h4>Общая сумма: <strong id="total-price">{{ total_price }} руб.</strong></h4>
-                <a href="#" class="btn btn-success">Перейти к оформлению</a>
+                <a href="{% url 'shop_app:invoice' %}" class="btn btn-success">Перейти к оформлению</a>
             </div>
         </div>
     {% else %}

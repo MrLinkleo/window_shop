@@ -1,11 +1,16 @@
 import json
 from django.shortcuts import render, get_object_or_404
-from .models import Film, CartItem, Cart
+from .models import Film, CartItem, Cart, CartItem
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.db.models import Sum
 from django.conf import settings
+from weasyprint import HTML
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+
+
 
 def home(request):
     return render(request, 'shop_app/home.html', {'MEDIA_URL': settings.MEDIA_URL})  # Показываем шаблон 'home.html'
@@ -113,3 +118,25 @@ def delete_cart_item(request):
 
 def contacts(request):
     return render(request, 'shop_app/contacts.html')
+
+@login_required
+def generate_invoice(request):
+    # Получаем корзину для текущего пользователя
+    try:
+        cart = Cart.objects.get(user=request.user)
+    except Cart.DoesNotExist:
+        cart = None
+
+    if cart:
+        # Получаем все товары из корзины
+        cart_items = CartItem.objects.filter(cart=cart)
+        total_price = sum(item.get_total_price() for item in cart_items)
+
+        return render(request, 'shop_app/invoice_template.html', {
+            'cart_items': cart_items,
+            'total_price': total_price,
+        })
+    else:
+        return render(request, 'shop_app/invoice_template.html', {
+            'error': "У вас нет корзины или корзина пуста.",
+        })
