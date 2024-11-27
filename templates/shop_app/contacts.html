@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Контакты{% endblock %}
 
 {% block content %}
-<!-- Контейнер для всей страницы контактов -->
 <div class="container mt-5">
     <h1 class="text-center mb-4">Свяжитесь с нами</h1>
 
-    <!-- Информация о компании -->
     <div class="row">
         <div class="col-md-6">
             <h3>Наши координаты</h3>
@@ -47,24 +47,7 @@
 
 {% block scripts %}
 <!-- Подключение карты (например, Google Maps) -->
-<script>
-    function initMap() {
-        var location = { lat: 55.7558, lng: 37.6173 }; // Координаты Москвы
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 12,
-            center: location
-        });
-
-        var marker = new google.maps.Marker({
-            position: location,
-            map: map,
-            title: 'Мы здесь!'
-        });
-    }
-</script>
 <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
-
-<!-- Подключение иконок социальных сетей -->
+<script src="{% static 'js/contacts.js' %}"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 {% endblock %}

@@ -1,50 +1,11 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}Декоративные пленки{% endblock %}
 
 {% block extra_css %}
-    <style>
-        .card {
-            border: none;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-        .modal-body img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 15px;
-        }
-        .quantity-input {
-            max-width: 60px;
-        }
-        .modal-footer {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-        }
-        .cart-item {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        .cart-item img {
-            max-width: 120px;
-            height: auto;
-            margin-right: 15px;
-        }
-        .cart-item-details {
-            flex-grow: 1;
-        }
-        .modal-dialog {
-            max-width: 800px;
-        }
-    </style>
+<link rel="stylesheet" href="{% static 'css/view_sun_secutity_decor_film.css' %}">
 {% endblock %}
 
 {% block content %}
