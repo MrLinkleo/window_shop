@@ -119,3 +119,9 @@ def generate_invoice(request):
         return render(request, 'shop_app/invoice_template.html', {
             'error': "У вас нет корзины или корзина пуста.",
         })
+    
+def view_services(request):
+    return render(request, 'shop_app/services.html')
+
+def view_online_store(request):
+    return render(request, 'shop_app/online_store.html')

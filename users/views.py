@@ -15,7 +15,6 @@ User = get_user_model()
 @require_POST
 def register_view(request):
     try:
-        # Получаем данные из тела запроса
         data = json.loads(request.body)
 
         username = data.get('username')
@@ -23,21 +22,17 @@ def register_view(request):
         password1 = data.get('password1')
         password2 = data.get('password2')
 
-        # Проверка совпадения паролей
         if password1 != password2:
             return JsonResponse({"status": "error", "message": "Пароли не совпадают"}, status=400)
 
-        # Проверка на существование пользователя с таким именем или email
         if User.objects.filter(username=username).exists():
             return JsonResponse({"status": "error", "message": "Пользователь с таким именем уже существует"}, status=400)
 
         if User.objects.filter(email=email).exists():
             return JsonResponse({"status": "error", "message": "Пользователь с таким email уже существует"}, status=400)
 
-        # Создание нового пользователя
         user = User.objects.create_user(username=username, email=email, password=password1)
 
-        # Авторизация нового пользователя
         login(request, user)
 
         return JsonResponse({"status": "success", "message": "Регистрация успешна"})
@@ -62,7 +57,7 @@ def login_view(request):
 
 @login_required
 def profile_view(request):
-    print("Рендеринг страницы профиля")  # Отладочная информация
+    print("Рендеринг страницы профиля")
     return render(request, 'users/profile.html')
 
 def logout_view(request):

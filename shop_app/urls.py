@@ -14,4 +14,6 @@ urlpatterns = [
     path('delete-cart-item/', views.delete_cart_item, name='delete_cart_item'),
     path('contacts/', views.contacts, name='contacts'),
     path('invoice/', views.generate_invoice, name='invoice'),
+    path('services/', views.view_services, name='services'),
+    path('online_store/', views.view_online_store, name='online_store'),
 ]

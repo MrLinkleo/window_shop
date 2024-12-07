@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Счет{% endblock %}
+
+{% block content %}
+<body>
+    <header>
+        <h1 class="text-center">Интернет-магазин</h1>
+    </header>
+
+    <section id="films" class="mb-5">
+        <h2 class="section-header text-center">Тонировочные пленки</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="https://example.com/sun_protection_film.jpg" class="card-img-top" alt="Солнцезащитная пленка">
+                    <div class="card-body">
+                        <h5 class="card-title">Солнцезащитные пленки</h5>
+                        <p class="card-text">Отличная защита от жарких солнечных лучей и уменьшение энергозатрат.</p>
+                        <a href="{% url 'shop_app:view_sun_film' %}" class="btn-service">Узнать больше</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="https://example.com/security_film.jpg" class="card-img-top" alt="Защитная пленка">
+                    <div class="card-body">
+                        <h5 class="card-title">Защитные пленки</h5>
+                        <p class="card-text">Укрепление стекол и защита от разбития — надежные решения для безопасности.</p>
+                        <a href="{% url 'shop_app:view_security_film' %}" class="btn-service">Узнать больше</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow">
+                    <img src="https://example.com/decoration_film.jpg" class="card-img-top" alt="Декоративная пленка">
+                    <div class="card-body">
+                        <h5 class="card-title">Декоративные пленки</h5>
+                        <p class="card-text">Добавьте стиль и приватность вашему дому или офису с помощью декоративных пленок.</p>
+                        <a href="{% url 'shop_app:view_decoration_film' %}" class="btn-service">Узнать больше</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+{% endblock %}

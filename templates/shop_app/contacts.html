@@ -11,14 +11,15 @@
     <div class="row">
         <div class="col-md-6">
             <h3>Наши координаты</h3>
-            <p><strong>Адрес:</strong> ул. Примерная, д. 10, Москва</p>
+            <p><strong>Адрес:</strong> ул. Стаханова, д. 10, Липецк</p>
             <p><strong>Телефон:</strong> <a href="tel:+79991234567">+7 (999) 123-45-67</a></p>
             <p><strong>Email:</strong> <a href="mailto:info@tonirovka.com">info@tonirovka.com</a></p>
             <p><strong>Часы работы:</strong> Пн-Пт: 9:00 - 18:00, Сб-Вс: Выходной</p>
         </div>
         <div class="col-md-6">
             <h3>Наше местоположение</h3>
-            <div id="map" style="width:100%; height: 300px; border: 1px solid #ddd;"></div>
+            <!-- Яндекс карта с улучшенной адаптивностью -->
+            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3A7871a760b1174e28483cdd5b8846f1cd240a08f819f7782d0ffa0a631a609683&amp;source=constructor" width="100%" height="400" frameborder="0" style="border: 1px solid #ddd;"></iframe>
         </div>
     </div>
 
@@ -26,28 +27,28 @@
         <div class="col text-center">
             <h3>Подписывайтесь на нас в соцсетях</h3>
             <div class="social-icons">
-                <a href="https://www.facebook.com" class="btn btn-outline-primary btn-circle" target="_blank">
+                <a href="https://t.me/alexandr_kariukin" class="btn btn-outline-primary btn-circle" target="_blank">
+                    <i class="fa-brands fa-telegram-plane"></i> 
+                </a>
+                <a href="#" class="btn btn-outline-primary btn-circle" target="_blank">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="https://www.instagram.com" class="btn btn-outline-danger btn-circle" target="_blank">
+                <a href="#" class="btn btn-outline-danger btn-circle" target="_blank">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="https://www.twitter.com" class="btn btn-outline-info btn-circle" target="_blank">
+                <a href="#" class="btn btn-outline-info btn-circle" target="_blank">
                     <i class="fab fa-twitter"></i>
-                </a>
-                <a href="https://www.linkedin.com" class="btn btn-outline-primary btn-circle" target="_blank">
-                    <i class="fab fa-linkedin-in"></i>
                 </a>
             </div>
         </div>
     </div>
 </div>
-
 {% endblock %}
 
 {% block scripts %}
-<!-- Подключение карты (например, Google Maps) -->
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
-<script src="{% static 'js/contacts.js' %}"></script>
+<!-- Подключение стилей для иконок социальных сетей -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!-- Ваш кастомный JS файл -->
+<script src="{% static 'js/contacts.js' %}"></script>
 {% endblock %}
+
